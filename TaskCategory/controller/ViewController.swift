@@ -22,67 +22,33 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // MARK: - Tree
     
-//    func makeTree(list: [Category]) -> [Category] {
-//        var categories = [Int: Category]() // Dictionary to store categories by ID
-//        var tree = [Category]() // Final result array
-//
-//        // Step 1: Create dictionary of categories
-//        for category in list {
-//            if let categoryId = category.id {
-//                categories[categoryId] = category
-//            }
-//        }
-//
-//        // Step 2 and 3: Build the tree structure
-//        for category in list {
-//            if let parentId = category.parentId {
-//                if parentId == 0 {
-//                    tree.append(category)
-//                } else {
-//                    if var parentCategory = categories[parentId] {
-//                        if parentCategory.childs == nil {
-//                            parentCategory.childs = [Category]()
-//                        }
-//                        parentCategory.childs?.append(category)
-//                    }
-//                }
-//            }
-//        }
-//
-//        return tree
-//    }
-    
     func makeTree(list: [Category]) -> [Category] {
-        var tree: [Category] = []
-        var lookup: [Int: Category] = [:]
+        var categories = [Int: Category]() // Dictionary to store categories by ID
+        var tree = [Category]() // Final result array
 
         for category in list {
-            if let parentId = category.parentId, parentId != 0 {
-                if var parent = lookup[parentId] {
-                    parent.childs?.append(category)
-                } else {
-                    lookup[parentId] = Category(id: parentId, parentId: nil, childs: [category])
-                }
-            } else {
-                tree.append(category)
+            if let categoryId = category.id {
+                categories[categoryId] = category
             }
-            lookup[category.id!] = category
+        }
+
+        for category in list {
+            if let parentId = category.parentId {
+                if parentId == 0 {
+                    tree.append(category)
+                } else {
+                    if var parentCategory = categories[parentId] {
+                        if parentCategory.childs == nil {
+                            parentCategory.childs = [Category]()
+                        }
+                        parentCategory.childs?.append(category)
+                    }
+                }
+            }
         }
 
         return tree
     }
-    
-    var list = [
-        Category(id: 14, parentId: 0, childs: nil),
-        Category(id: 127, parentId: 14, childs: nil),
-        Category(id: 92, parentId: 26, childs: nil),
-        Category(id: 15, parentId: 0, childs: nil),
-        Category(id: 128, parentId: 15, childs: nil),
-        Category(id: 93, parentId: 18, childs: nil)
-    ]
-    
-    //    func makeTree(list: list)
-    //    print(tree)
     
     // MARK: - TableView
     
@@ -156,3 +122,4 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
 }
 
+// I tried my best to make this program work successfully but I couldn't understand task completely because it was not clear, so here is all works I did
